@@ -72,29 +72,33 @@ def search_results(type_query, data):
         print("statement is", sql)
         cur.execute(sql)
 
-        print(cur.fetchall())
+
 
         results = list(cur.fetchall())
+        print(results)
 
-        df = pd.DataFrame(columns=["AIRLINE_NAME", "MSN", "HARNESS_LENGTH", "GROSS_WEIGHT",
+
+        df = pd.DataFrame(results, columns=["AIRLINE_NAME", "MSN", "HARNESS_LENGTH", "GROSS_WEIGHT",
                                             "ATMOSPHERIC_PRESSURE", "ROOM_TEMPERATURE", "AIRPORT",
                                             "FUEL_CAPACITY_ON_LEFT", "FUEL_CAPACITY_ON_RIGHT", "FUEL_QUANTITY_ON_LEFT",
                                             "FUEL_QUANTITY_ON_RIGHT", "FLIGHT_NUMBER"])
 
-        for re in results:
-            print(re)
-            df = df.append(re)
-            print(df)
 
 
-        print("final_df", df)
-        df = df.to_html
+
+        print(df)
+        df = df.to_html()
+        db.close()
+        return df
 
 
 
 
     except Exception as e:
         print("error while searching results in db", e)
+        return None
+
+
 
 
 
