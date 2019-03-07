@@ -2,6 +2,7 @@ import MySQLdb
 import os
 import warnings
 import sys
+import pandas as pd
 
 warnings.filterwarnings('ignore')
 
@@ -57,3 +58,43 @@ def connection(data):
 
 
     db.close()
+
+
+def search_results(type_query, data):
+    db = MySQLdb.connect("localhost", "root", "ayushpatidar@04", "airbus")
+    print("DB conencted")
+
+    cur = db.cursor()
+
+    try:
+        print("serach results")
+        sql = "SELECT * FROM AIRLINE_DATA WHERE " + str(type_query) + " = " +str(data)
+        print("statement is", sql)
+        cur.execute(sql)
+
+        print(cur.fetchall())
+
+        results = list(cur.fetchall())
+
+        df = pd.DataFrame(columns=["AIRLINE_NAME", "MSN", "HARNESS_LENGTH", "GROSS_WEIGHT",
+                                            "ATMOSPHERIC_PRESSURE", "ROOM_TEMPERATURE", "AIRPORT",
+                                            "FUEL_CAPACITY_ON_LEFT", "FUEL_CAPACITY_ON_RIGHT", "FUEL_QUANTITY_ON_LEFT",
+                                            "FUEL_QUANTITY_ON_RIGHT", "FLIGHT_NUMBER"])
+
+        for re in results:
+            print(re)
+            df = df.append(re)
+            print(df)
+
+
+        print("final_df", df)
+        df = df.to_html
+
+
+
+
+    except Exception as e:
+        print("error while searching results in db", e)
+
+
+
