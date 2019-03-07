@@ -17,7 +17,6 @@ def connection(data):
         cur.execute(sql)
 
         rs = cur.fetchone()
-        print(rs)
 
         if rs:
             print("table is already there")
